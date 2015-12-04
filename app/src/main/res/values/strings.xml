@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CityQuest</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="facebook_app_id">557698184394394</string>
+
+    //Buttons text
+    <string name="facebook_login">Login with Facebook</string>
 </resources>
