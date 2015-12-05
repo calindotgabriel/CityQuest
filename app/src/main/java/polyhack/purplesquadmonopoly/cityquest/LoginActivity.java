@@ -30,6 +30,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import polyhack.purplesquadmonopoly.cityquest.model.User;
 import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
 import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
@@ -40,8 +42,11 @@ import retrofit.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ImageView logoImageView;
-    private Button facebookLoginBtn;
+    @Bind(R.id.logo_image_view)
+    ImageView logoImageView;
+
+    @Bind(R.id.facebok_login_button)
+    Button facebookLoginBtn;
 
     private CallbackManager callbackManager;
     private LoginManager loginManager;
@@ -56,8 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
 //        printKeyHash(this);
 
-        logoImageView = (ImageView) findViewById(R.id.logo_image_view);
-        facebookLoginBtn = (Button) findViewById(R.id.facebok_login_button);
+        ButterKnife.bind(this);
 
         callbackManager = CallbackManager.Factory.create();
         loginManager = LoginManager.getInstance();
