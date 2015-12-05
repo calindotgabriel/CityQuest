@@ -1,14 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<polyhack.purplesquadmonopoly.cityquest.model.view.EmptyRecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_fl"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ListFragment">
+    android:layout_height="match_parent">
 
-    <polyhack.purplesquadmonopoly.cityquest.model.view.EmptyRecyclerView
-        android:id="@+id/rv_fl"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+</polyhack.purplesquadmonopoly.cityquest.model.view.EmptyRecyclerView>
 
-    </polyhack.purplesquadmonopoly.cityquest.model.view.EmptyRecyclerView>
-
-</FrameLayout>

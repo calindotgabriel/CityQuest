@@ -7,4 +7,5 @@
 
     //Buttons text
     <string name="facebook_login">Login with Facebook</string>
+    <string name="title_activity_journey">JourneyActivity</string>
 </resources>
