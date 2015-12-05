@@ -59,10 +59,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
+
+        if (UserManagement.isLoggedIn(this)) {
+            startMainActivity();
+        }
+
         setContentView(R.layout.activity_login);
-
-//        printKeyHash(this);
-
         ButterKnife.bind(this);
 
         callbackManager = CallbackManager.Factory.create();
@@ -110,21 +112,21 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        loginManager.logOut();
         super.onDestroy();
     }
 
     private void login(User user){
-//        Toast.makeText(this, "LOG User", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "LOGIN USER", Toast.LENGTH_SHORT).show();
         Call<User> callLogin = cityQuestService.loginUser(user);
         callLogin.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Response<User> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-                    Toast.makeText(LoginActivity.this, "hello " + response.body().getName(), Toast.LENGTH_SHORT).show();
+                    UserManagement.setUser(LoginActivity.this, response.body());
+                    startMainActivity();
                 } else {
                     Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
-}
+                }
             }
 
             @Override
@@ -134,43 +136,16 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void startMainActivity() {
+        Intent startActivityIntent = new Intent(this, MainActivity.class);
+        startActivity(startActivityIntent);
+        finish();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public static String printKeyHash(Activity context) {
-        PackageInfo packageInfo;
-        String key = null;
-        try {
-            //getting application package name, as defined in manifest
-            String packageName = context.getApplicationContext().getPackageName();
-
-            //Retriving package info
-            packageInfo = context.getPackageManager().getPackageInfo(packageName,
-                    PackageManager.GET_SIGNATURES);
-
-            Log.e("Package Name=", context.getApplicationContext().getPackageName());
-
-            for (Signature signature : packageInfo.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                key = new String(Base64.encode(md.digest(), 0));
-
-                // String key = new String(Base64.encodeBytes(md.digest()));
-                Log.e("Key Hash=", key);
-            }
-        } catch (PackageManager.NameNotFoundException e1) {
-            Log.e("Name not found", e1.toString());
-        }
-        catch (NoSuchAlgorithmException e) {
-            Log.e("No such an algorithm", e.toString());
-        } catch (Exception e) {
-            Log.e("Exception", e.toString());
-        }
-
-        return key;
     }
 
 }
