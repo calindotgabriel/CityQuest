@@ -22,6 +22,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.github.glomadrian.loadingballs.BallView;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -49,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Bind(R.id.facebok_login_button)
     Button facebookLoginBtn;
+
+    @Bind(R.id.loading_balls)
+    BallView mBalls;
 
     private CallbackManager callbackManager;
     private LoginManager loginManager;
@@ -86,22 +90,26 @@ public class LoginActivity extends AppCompatActivity {
                         parameters.putString("fields", "name,email");
                         request.setParameters(parameters);
                         request.executeAsync();
+                        mBalls.stop();
                     }
 
                     @Override
                     public void onCancel() {
                         Toast.makeText(LoginActivity.this, "You need to login with facebook", Toast.LENGTH_SHORT).show();
+                        mBalls.stop();
                     }
 
                     @Override
                     public void onError(FacebookException e) {
                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        mBalls.stop();
                     }
                 });
 
         facebookLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mBalls.setVisibility(View.VISIBLE);
                 loginManager.logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
             }
         });

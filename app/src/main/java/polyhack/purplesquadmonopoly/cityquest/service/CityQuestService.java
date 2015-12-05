@@ -1,5 +1,8 @@
 package polyhack.purplesquadmonopoly.cityquest.service;
 
+import java.util.List;
+
+import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 import polyhack.purplesquadmonopoly.cityquest.model.User;
 import retrofit.Call;
 import retrofit.http.Body;
@@ -13,5 +16,8 @@ public interface CityQuestService {
 
     @POST("/login")
     Call<User> loginUser(@Body User user);
+
+    @GET("/journies")
+    Call<List<Journey>> getAllJournies();
 
 }

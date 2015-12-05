@@ -25,6 +25,10 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
     private List<Journey> mJourneys;
     private Context mContext;
 
+    public JourneyAdapter(Context mContext) {
+        this.mContext = mContext;
+    }
+
     public JourneyAdapter(Context context, List<Journey> journeys) {
         this.mContext = context;
         this.mJourneys = new ArrayList<>(journeys);
@@ -47,6 +51,9 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
     @Override
     public int getItemCount() {
+        if (mJourneys == null) {
+            return 0;
+        }
         return mJourneys.size();
     }
 

@@ -21,14 +21,6 @@ public class Journey implements Serializable{
         this.imgURL = imgURL;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -59,5 +51,17 @@ public class Journey implements Serializable{
 
     public void setDistance(Long distance) {
         this.distance = distance;
+    }
+
+    @Override
+    public String toString() {
+        return "Journey{" +
+                "_id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", duration=" + duration +
+                ", distance=" + distance +
+                ", imgURL='" + imgURL + '\'' +
+                '}';
     }
 }
