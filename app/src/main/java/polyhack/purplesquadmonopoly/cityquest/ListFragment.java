@@ -37,8 +37,9 @@ public class ListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        final JourneyAdapter adapter = new JourneyAdapter(getActivity(), MockFactory.getJourneys());
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(new JourneyAdapter());
+        mRecyclerView.setAdapter(adapter);
 
     }
 }
