@@ -1,13 +1,14 @@
 package polyhack.purplesquadmonopoly.cityquest;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.provider.ContactsContract;
-import android.support.v7.app.ActionBarActivity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,26 +20,38 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Collections;
 
-import polyhack.purplesquadmonopoly.cityquest.models.User;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import polyhack.purplesquadmonopoly.cityquest.model.User;
+import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
+import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private ImageView logoImageView;
-    private Button facebookLoginBtn;
+    @Bind(R.id.logo_image_view)
+    ImageView logoImageView;
+
+    @Bind(R.id.facebok_login_button)
+    Button facebookLoginBtn;
 
     private CallbackManager callbackManager;
     private LoginManager loginManager;
+
+    private CityQuestService cityQuestService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_login);
 
-        logoImageView = (ImageView) findViewById(R.id.logo_image_view);
-        facebookLoginBtn = (Button) findViewById(R.id.facebok_login_button);
+//        printKeyHash(this);
+
+        ButterKnife.bind(this);
 
         callbackManager = CallbackManager.Factory.create();
         loginManager = LoginManager.getInstance();
@@ -59,12 +73,10 @@ public class LoginActivity extends AppCompatActivity {
                                 loginResult.getAccessToken(),
                                 new GraphRequest.GraphJSONObjectCallback() {
                                     @Override
-                                    public void onCompleted(
-                                            JSONObject object,
-                                            GraphResponse response) {
-                                        User currentUser = new Gson().fromJson(object.toString(), User.class);
-
-                                           }
+                                    public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
+                                        User currentUser = new Gson().fromJson(jsonObject.toString(), User.class);
+                                        login(currentUser);
+                                    }
                                 });
                         Bundle parameters = new Bundle();
                         parameters.putString("fields", "name,email");
@@ -90,6 +102,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        cityQuestService = ServiceGenerator.createService(CityQuestService.class);
+
     }
 
     @Override
@@ -98,10 +112,62 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    private void login(User user){
+        Call<User> callLogin = cityQuestService.loginUser(user);
+        callLogin.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Response<User> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+
+                } else {
+                    Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+}
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static String printKeyHash(Activity context) {
+        PackageInfo packageInfo;
+        String key = null;
+        try {
+            //getting application package name, as defined in manifest
+            String packageName = context.getApplicationContext().getPackageName();
+
+            //Retriving package info
+            packageInfo = context.getPackageManager().getPackageInfo(packageName,
+                    PackageManager.GET_SIGNATURES);
+
+            Log.e("Package Name=", context.getApplicationContext().getPackageName());
+
+            for (Signature signature : packageInfo.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                key = new String(Base64.encode(md.digest(), 0));
+
+                // String key = new String(Base64.encodeBytes(md.digest()));
+                Log.e("Key Hash=", key);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("Name not found", e1.toString());
+        }
+        catch (NoSuchAlgorithmException e) {
+            Log.e("No such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("Exception", e.toString());
+        }
+
+        return key;
     }
 
 }
