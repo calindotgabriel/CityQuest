@@ -18,6 +18,6 @@ public interface CityQuestService {
     Call<User> loginUser(@Body User user);
 
     @GET("/journies")
-    Call<List<Journey>> getAllJourneys();
+    Call<List<Journey>> getAllJournies();
 
 }
