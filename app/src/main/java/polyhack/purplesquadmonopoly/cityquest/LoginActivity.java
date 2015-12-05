@@ -26,7 +26,9 @@ import com.github.glomadrian.loadingballs.BallView;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -79,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
                                         User currentUser = new Gson().fromJson(jsonObject.toString(), User.class);
-//                                        login(currentUser);
+                                        login(currentUser);
                                     }
                                 });
                         Bundle parameters = new Bundle();
@@ -110,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-//        cityQuestService = ServiceGenerator.createService(CityQuestService.class);
+        cityQuestService = ServiceGenerator.createService(CityQuestService.class);
 
     }
 
@@ -121,12 +123,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(User user){
+//        Toast.makeText(this, "LOG User", Toast.LENGTH_SHORT).show();
         Call<User> callLogin = cityQuestService.loginUser(user);
         callLogin.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Response<User> response, Retrofit retrofit) {
                 if (response.isSuccess()) {
-
+                    Toast.makeText(LoginActivity.this, "hello " + response.body().getName(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
 }
