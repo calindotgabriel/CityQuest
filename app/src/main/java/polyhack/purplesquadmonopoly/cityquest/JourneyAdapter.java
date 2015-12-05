@@ -22,7 +22,7 @@ import polyhack.purplesquadmonopoly.cityquest.model.Journey;
  */
 public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHolder> {
 
-    private List<Journey> mJourneys;
+    private List<Journey> mJournies;
     private Context mContext;
 
     public JourneyAdapter(Context mContext) {
@@ -31,7 +31,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
     public JourneyAdapter(Context context, List<Journey> journeys) {
         this.mContext = context;
-        this.mJourneys = new ArrayList<>(journeys);
+        this.mJournies = new ArrayList<>(journeys);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Journey journey = mJourneys.get(position);
+        final Journey journey = mJournies.get(position);
         holder.mNameTv.setText(journey.getName());
         holder.mDescTv.setText(journey.getDesc()); //TODO
         Picasso.with(mContext).load(journey.getImgURL()).into(holder.mImgVw);
@@ -51,10 +51,15 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        if (mJourneys == null) {
+        if (mJournies == null) {
             return 0;
         }
-        return mJourneys.size();
+        return mJournies.size();
+    }
+
+    public void animateTo(List<Journey> journies) {
+        this.mJournies = journies;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -75,8 +80,8 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
     }
 
     public Journey getJourneyByPosition(int position) {
-        if (position < mJourneys.size()) {
-            return mJourneys.get(position);
+        if (position < mJournies.size()) {
+            return mJournies.get(position);
         }
         return null;
     }

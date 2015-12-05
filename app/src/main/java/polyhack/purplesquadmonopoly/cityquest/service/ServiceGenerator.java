@@ -11,7 +11,7 @@ import retrofit.Retrofit;
  */
 public class ServiceGenerator {
 
-    public static final String API_BASE_URL = "http://192.168.0.100:3000/";
+    public static final String API_BASE_URL = "http://192.168.0.100:3000";
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()

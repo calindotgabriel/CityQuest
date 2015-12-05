@@ -4,22 +4,32 @@ package polyhack.purplesquadmonopoly.cityquest;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 import polyhack.purplesquadmonopoly.cityquest.model.view.EmptyRecyclerView;
+import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
+import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ListFragment extends Fragment{
+
+    private String TAG = this.getClass().getCanonicalName();
 
     @Bind(R.id.rv_fl)
     EmptyRecyclerView mRecyclerView;
@@ -40,8 +50,8 @@ public class ListFragment extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        final JourneyAdapter adapter = new JourneyAdapter(getActivity(), MockFactory.getJourneys());
         mRecyclerView.setLayoutManager(layoutManager);
+        final JourneyAdapter adapter = new JourneyAdapter(getActivity());
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -51,6 +61,23 @@ public class ListFragment extends Fragment{
                     }
                 })
         );
+
+        final CityQuestService service = ServiceGenerator.createService(CityQuestService.class);
+        final Call<List<Journey>> notesCall = service.getAllJournies();
+        notesCall.enqueue(new Callback<List<Journey>>() {
+            @Override
+            public void onResponse(Response<List<Journey>> response, Retrofit retrofit) {
+                adapter.animateTo(response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                final String errorMessage = "Could not contact server: " + t.getMessage();
+                Toast.makeText(getActivity(), errorMessage,
+                        Toast.LENGTH_SHORT).show();
+                Log.e(TAG, errorMessage);
+            }
+        });
     }
 
     private void switchToDetailFragment(Journey journey) {
