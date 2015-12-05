@@ -1,6 +1,7 @@
 package polyhack.purplesquadmonopoly.cityquest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -14,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 
 
@@ -59,11 +61,6 @@ public class DetailFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
@@ -94,5 +91,11 @@ public class DetailFragment extends Fragment {
         mDurationTextView.setText(targetJourney.getDuration() + " min");
         Picasso.with(getActivity()).load(targetJourney.getImgURL()).
                 fit().centerCrop().into(mJourneyImageView);
+    }
+
+    @OnClick(R.id.go_btn)
+    void onGoBtnPressed() {
+        Intent intent = new Intent(getActivity(), MapActivity.class);
+        startActivity(intent);
     }
 }

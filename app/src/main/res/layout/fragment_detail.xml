@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,56 +15,73 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ceta"/>
+            tools:src="@drawable/ceta" />
 
         <TextView
             android:id="@+id/name_tv"
-            android:text="Cetatuie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/journey_iv"
+            android:padding="16dp"
             android:textColor="@color/primary_text"
             android:textSize="36sp"
-            android:padding="16dp"/>
+            tools:text="Cetatuie" />
 
         <TextView
             android:id="@+id/description_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name_tv"
-            android:text="Plimba-te pana esti viu"
-            android:textColor="@color/primary_text"
-            android:padding="16dp"/>
+            android:padding="16dp"
+            android:textColor="@color/secondary_text"
+            tools:text="Plimba-te pana esti viu\nSau pana esti mort\nBuzunar la piept" />
 
         <TextView
             android:id="@+id/distance_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/description_tv"
-            android:text="34 km"
+            android:padding="16dp"
             android:textColor="@color/secondary_text"
-            android:padding="16dp"/>
+            tools:text="34 km" />
 
         <TextView
             android:id="@+id/duration_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/description_tv"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:text="34 min"
+            android:layout_alignBottom="@id/distance_tv"
+            android:layout_toRightOf="@id/distance_tv"
+            android:padding="16dp"
             android:textColor="@color/secondary_text"
-            android:padding="16dp"/>
+            tools:text="34 min" />
 
     </RelativeLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/go_btn"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@+id/journey_iv"
-        app:layout_anchorGravity="bottom|right|end"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="16dp"
+        app:layout_anchor="@+id/journey_iv"
+        app:layout_anchorGravity="bottom|right|end">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/go_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/detail_fab" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GO"
+            android:textColor="@color/icons"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            />
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
