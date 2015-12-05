@@ -1,54 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/journey_iv"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/go_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/journey_iv"
+        app:layout_anchorGravity="bottom|right|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ceta"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/name_tv"
-        android:text="Cetatuie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/journey_iv"
-        android:textColor="@color/primary_text"
-        android:textSize="36sp"
-        android:padding="16dp"/>
+        <ImageView
+            android:id="@+id/journey_iv"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ceta"/>
 
-    <TextView
-        android:id="@+id/description_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/name_tv"
-        android:text="Plimba-te pana esti viu"
-        android:textColor="@color/primary_text"
-        android:padding="16dp"/>
+        <TextView
+            android:id="@+id/name_tv"
+            android:text="Cetatuie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/journey_iv"
+            android:textColor="@color/primary_text"
+            android:textSize="36sp"
+            android:padding="16dp"/>
 
-    <TextView
-        android:id="@+id/distance_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/description_tv"
-        android:text="34 km"
-        android:textColor="@color/secondary_text"
-        android:padding="16dp"/>
+        <TextView
+            android:id="@+id/description_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name_tv"
+            android:text="Plimba-te pana esti viu"
+            android:textColor="@color/primary_text"
+            android:padding="16dp"/>
 
-    <TextView
-        android:id="@+id/duration_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/description_tv"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:text="34 min"
-        android:textColor="@color/secondary_text"
-        android:padding="16dp"/>
+        <TextView
+            android:id="@+id/distance_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description_tv"
+            android:text="34 km"
+            android:textColor="@color/secondary_text"
+            android:padding="16dp"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/duration_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description_tv"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:text="34 min"
+            android:textColor="@color/secondary_text"
+            android:padding="16dp"/>
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
