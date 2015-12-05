@@ -5,14 +5,10 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.provider.ContactsContract;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,7 +20,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.gson.Gson;
@@ -33,11 +28,15 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
-import polyhack.purplesquadmonopoly.cityquest.models.User;
+import polyhack.purplesquadmonopoly.cityquest.model.User;
+import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
+import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -47,13 +46,15 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private LoginManager loginManager;
 
+    private CityQuestService cityQuestService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_login);
 
-        printKeyHash(this);
+//        printKeyHash(this);
 
         logoImageView = (ImageView) findViewById(R.id.logo_image_view);
         facebookLoginBtn = (Button) findViewById(R.id.facebok_login_button);
@@ -68,12 +69,10 @@ public class LoginActivity extends AppCompatActivity {
                                 loginResult.getAccessToken(),
                                 new GraphRequest.GraphJSONObjectCallback() {
                                     @Override
-                                    public void onCompleted(
-                                            JSONObject object,
-                                            GraphResponse response) {
-                                        User currentUser = new Gson().fromJson(object.toString(), User.class);
-                                                Log.e("USER", currentUser.getName());
-                                           }
+                                    public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
+                                        User currentUser = new Gson().fromJson(jsonObject.toString(), User.class);
+                                        login(currentUser);
+                                    }
                                 });
                         Bundle parameters = new Bundle();
                         parameters.putString("fields", "name,email");
@@ -99,12 +98,33 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        cityQuestService = ServiceGenerator.createService(CityQuestService.class);
+
     }
 
     @Override
     protected void onDestroy() {
         loginManager.logOut();
         super.onDestroy();
+    }
+
+    private void login(User user){
+        Call<User> callLogin = cityQuestService.loginUser(user);
+        callLogin.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Response<User> response, Retrofit retrofit) {
+                if (response.isSuccess()) {
+
+                } else {
+                    Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+}
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

@@ -1,4 +1,4 @@
-package polyhack.purplesquadmonopoly.cityquest.models;
+package polyhack.purplesquadmonopoly.cityquest.model;
 
 /**
  * Created by Ovi on 05-Dec-15.
