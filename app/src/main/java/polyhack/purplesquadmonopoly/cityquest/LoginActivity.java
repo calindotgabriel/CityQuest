@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
                                         User currentUser = new Gson().fromJson(jsonObject.toString(), User.class);
-                                        login(currentUser);
+//                                        login(currentUser);
                                     }
                                 });
                         Bundle parameters = new Bundle();
@@ -102,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        cityQuestService = ServiceGenerator.createService(CityQuestService.class);
+//        cityQuestService = ServiceGenerator.createService(CityQuestService.class);
 
     }
 
