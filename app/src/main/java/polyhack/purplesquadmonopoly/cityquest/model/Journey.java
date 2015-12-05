@@ -4,7 +4,7 @@ package polyhack.purplesquadmonopoly.cityquest.model;
  * Created by motan on 05.12.2015.
  */
 public class Journey {
-    private Long id;
+    private String _id;
     private String name;
     private String desc;
     private Long duration; // in km.
@@ -17,14 +17,6 @@ public class Journey {
 
     public void setImgURL(String imgURL) {
         this.imgURL = imgURL;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -57,5 +49,17 @@ public class Journey {
 
     public void setDistance(Long distance) {
         this.distance = distance;
+    }
+
+    @Override
+    public String toString() {
+        return "Journey{" +
+                "_id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", duration=" + duration +
+                ", distance=" + distance +
+                ", imgURL='" + imgURL + '\'' +
+                '}';
     }
 }
