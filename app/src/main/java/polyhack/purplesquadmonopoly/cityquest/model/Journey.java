@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by motan on 05.12.2015.
  */
 public class Journey implements Serializable{
-    private Long id;
+    private Long _id;
     private String name;
     private String desc;
     private Long duration; // in km.
