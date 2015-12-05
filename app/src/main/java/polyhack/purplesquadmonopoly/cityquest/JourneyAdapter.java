@@ -66,4 +66,12 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
             ButterKnife.bind(this, view);
         }
     }
+
+    public Journey getJourneyByPosition(int position) {
+        if (position < mJourneys.size()) {
+            return mJourneys.get(position);
+        }
+        return null;
+    }
+
 }
