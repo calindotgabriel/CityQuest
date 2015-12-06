@@ -8,7 +8,6 @@ import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
-import retrofit.http.Path;
 
 /**
  * Created by Ovi on 05-Dec-15.
@@ -21,7 +20,7 @@ public interface CityQuestService {
     @GET("/journies")
     Call<List<Journey>> getAllJournies();
 
-    @GET("/spots/journey/{journeyId}")
-    Call<List<Spot>> getAllSpots(@Path("journeyId") String journeyId);
+    @GET("/spots/journey/{id}")
+    Call<List<Spot>> getSpotsForJourney(@Path("id") String id);
 
 }

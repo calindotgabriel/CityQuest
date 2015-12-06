@@ -1,8 +1,15 @@
 package polyhack.purplesquadmonopoly.cityquest;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
 
 import polyhack.purplesquadmonopoly.cityquest.utils.PermissionUtils;
 
@@ -43,6 +50,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_logout:
+                LoginManager.getInstance().logOut();
+                UserManagement.removeUser(this);
+                startLoginActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void startLoginActivity() {
+        Intent startActivityIntent = new Intent(this, LoginActivity.class);
+        startActivity(startActivityIntent);
+        finish();
     }
 
     @Override

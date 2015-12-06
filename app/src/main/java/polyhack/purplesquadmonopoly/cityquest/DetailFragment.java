@@ -2,25 +2,42 @@ package polyhack.purplesquadmonopoly.cityquest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import polyhack.purplesquadmonopoly.cityquest.model.BaseFragment;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
+import polyhack.purplesquadmonopoly.cityquest.model.Spot;
+import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
+import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 
+ */
 public class DetailFragment extends BaseFragment {
 
+    public static final String TAG = DetailFragment.class.getSimpleName();
     public static final String KEY_JOURNEY = "serializable_journey_key";
     private Journey mTargetJourney;
+    private SpotAdapter adapter;
 
     @Bind(R.id.journey_iv)
     ImageView mJourneyImageView;
@@ -36,6 +53,9 @@ public class DetailFragment extends BaseFragment {
 
     @Bind(R.id.duration_tv)
     TextView mDurationTextView;
+
+    @Bind(R.id.spot_recycler_view)
+    RecyclerView mSpotRecyclerView;
 
     public static DetailFragment newInstance(Journey journey) {
         DetailFragment fragment = new DetailFragment();
@@ -66,7 +86,33 @@ public class DetailFragment extends BaseFragment {
         if (args != null) {
             Journey journey = (Journey) args.getSerializable(KEY_JOURNEY);
             this.setTargetedNote(journey);
+            populateSpots(journey.get_id());
         }
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mSpotRecyclerView.setLayoutManager(layoutManager);
+        adapter = new SpotAdapter(getActivity());
+        mSpotRecyclerView.setAdapter(adapter);
+
+    }
+
+    private void populateSpots(String journeyId) {
+        final CityQuestService service = ServiceGenerator.createService(CityQuestService.class);
+        final Call<List<Spot>> spotsCall = service.getSpotsForJourney(journeyId);
+        spotsCall.enqueue(new Callback<List<Spot>>() {
+            @Override
+            public void onResponse(Response<List<Spot>> response, Retrofit retrofit) {
+                adapter.animateTo(response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                final String errorMessage = "Could not contact server: " + t.getMessage();
+                Toast.makeText(getActivity(), errorMessage,
+                        Toast.LENGTH_SHORT).show();
+                Log.e(TAG, errorMessage);
+            }
+        });
     }
 
     public void setTargetedNote(Journey targetJourney) {
@@ -78,7 +124,7 @@ public class DetailFragment extends BaseFragment {
     private void fillFields(Journey targetJourney) {
         mDescriptionTextView.setText(targetJourney.getDesc());
         mNameTextView.setText(targetJourney.getName());
-        mDistanceTextView.setText(targetJourney.getDistance() + " km");
+        mDistanceTextView.setText(targetJourney.getDistance() + " m");
         mDurationTextView.setText(targetJourney.getDuration() + " min");
         Picasso.with(getActivity()).load(targetJourney.getImgURL()).
                 fit().centerCrop().into(mJourneyImageView);

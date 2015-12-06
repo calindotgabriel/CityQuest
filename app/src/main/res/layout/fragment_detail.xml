@@ -7,8 +7,9 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/journey_rl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="match_parent">
         android:background="@color/primary_light"
 
         >
@@ -55,9 +56,16 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/distance_tv"
             android:layout_toRightOf="@id/distance_tv"
+            android:layout_toEndOf="@+id/distance_tv"
             android:padding="16dp"
             android:textColor="@color/secondary_text"
             tools:text="34 min" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/spot_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/duration_tv"/>
 
     </RelativeLayout>
 

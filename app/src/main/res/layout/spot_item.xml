@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="96dp">
+
+    <RelativeLayout
+        android:id="@+id/image_rl"
+        android:layout_width="96dp"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/primary"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/spot_image_view"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ceta"/>
+
+        <ImageView
+            android:id="@+id/spot_overlay_view"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_centerInParent="true"
+            tools:src="@color/overlay_image_spot"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/spot_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/image_rl"
+        android:layout_toEndOf="@+id/image_rl"
+        android:textSize="24sp"
+        android:textColor="@color/primary_text"
+        tools:text="Cetatuie"/>
+
+</RelativeLayout>
