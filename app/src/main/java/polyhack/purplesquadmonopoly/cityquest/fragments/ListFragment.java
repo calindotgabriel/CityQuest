@@ -1,4 +1,4 @@
-package polyhack.purplesquadmonopoly.cityquest;
+package polyhack.purplesquadmonopoly.cityquest.fragments;
 
 
 import android.app.Fragment;
@@ -14,9 +14,12 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import polyhack.purplesquadmonopoly.cityquest.model.BaseFragment;
+import polyhack.purplesquadmonopoly.cityquest.view.JourneyAdapter;
+import polyhack.purplesquadmonopoly.cityquest.R;
+import polyhack.purplesquadmonopoly.cityquest.view.RecyclerItemClickListener;
+import polyhack.purplesquadmonopoly.cityquest.view.BaseFragment;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
-import polyhack.purplesquadmonopoly.cityquest.model.view.EmptyRecyclerView;
+import polyhack.purplesquadmonopoly.cityquest.view.EmptyRecyclerView;
 import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
 import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
 import retrofit.Call;

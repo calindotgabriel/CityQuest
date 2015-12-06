@@ -5,12 +5,12 @@
     >
 
 
-    <polyhack.purplesquadmonopoly.cityquest.model.view.EmptyRecyclerView
+    <polyhack.purplesquadmonopoly.cityquest.view.EmptyRecyclerView
         android:id="@+id/rv_fl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    </polyhack.purplesquadmonopoly.cityquest.model.view.EmptyRecyclerView>
+    </polyhack.purplesquadmonopoly.cityquest.view.EmptyRecyclerView>
 
 
 

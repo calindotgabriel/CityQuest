@@ -1,4 +1,4 @@
-package polyhack.purplesquadmonopoly.cityquest;
+package polyhack.purplesquadmonopoly.cityquest.view;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +15,10 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import polyhack.purplesquadmonopoly.cityquest.R;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
 import polyhack.purplesquadmonopoly.cityquest.model.VisitedSpot;
+import polyhack.purplesquadmonopoly.cityquest.utils.CircleTransform;
 
 /**
  * Created by Ovi on 06-Dec-15.

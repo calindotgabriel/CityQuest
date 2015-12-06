@@ -3,11 +3,8 @@ package polyhack.purplesquadmonopoly.cityquest;
 import android.app.Activity;
 import android.content.Context;
 
-import java.util.List;
-
 import polyhack.purplesquadmonopoly.cityquest.model.Adventure;
-import polyhack.purplesquadmonopoly.cityquest.model.ComplexPreferences;
-import polyhack.purplesquadmonopoly.cityquest.model.Spot;
+import polyhack.purplesquadmonopoly.cityquest.utils.ComplexPreferences;
 
 /**
  * Created by motan on 06.12.2015.

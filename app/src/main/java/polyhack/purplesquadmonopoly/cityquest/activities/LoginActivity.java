@@ -1,17 +1,11 @@
-package polyhack.purplesquadmonopoly.cityquest;
+package polyhack.purplesquadmonopoly.cityquest.activities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -22,19 +16,16 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.github.glomadrian.loadingballs.BallView;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import polyhack.purplesquadmonopoly.cityquest.R;
+import polyhack.purplesquadmonopoly.cityquest.UserManagement;
 import polyhack.purplesquadmonopoly.cityquest.model.User;
 import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
 import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
