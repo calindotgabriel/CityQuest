@@ -1,4 +1,4 @@
-package polyhack.purplesquadmonopoly.cityquest;
+package polyhack.purplesquadmonopoly.cityquest.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

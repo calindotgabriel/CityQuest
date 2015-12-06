@@ -1,4 +1,4 @@
-package polyhack.purplesquadmonopoly.cityquest;
+package polyhack.purplesquadmonopoly.cityquest.utils;
 
 import java.util.ArrayList;
 import java.util.List;

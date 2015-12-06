@@ -1,4 +1,4 @@
-package polyhack.purplesquadmonopoly.cityquest;
+package polyhack.purplesquadmonopoly.cityquest.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,8 +23,13 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import polyhack.purplesquadmonopoly.cityquest.AdventurePersistence;
+import polyhack.purplesquadmonopoly.cityquest.activities.MapActivity;
+import polyhack.purplesquadmonopoly.cityquest.R;
+import polyhack.purplesquadmonopoly.cityquest.view.SpotAdapter;
+import polyhack.purplesquadmonopoly.cityquest.UserManagement;
 import polyhack.purplesquadmonopoly.cityquest.model.Adventure;
-import polyhack.purplesquadmonopoly.cityquest.model.BaseFragment;
+import polyhack.purplesquadmonopoly.cityquest.view.BaseFragment;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
 import polyhack.purplesquadmonopoly.cityquest.model.VisitedSpot;

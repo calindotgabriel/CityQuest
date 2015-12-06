@@ -1,4 +1,4 @@
-package polyhack.purplesquadmonopoly.cityquest;
+package polyhack.purplesquadmonopoly.cityquest.activities;
 
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.view.MenuItem;
 
 import com.facebook.login.LoginManager;
 
+import polyhack.purplesquadmonopoly.cityquest.R;
+import polyhack.purplesquadmonopoly.cityquest.UserManagement;
+import polyhack.purplesquadmonopoly.cityquest.fragments.ListFragment;
 import polyhack.purplesquadmonopoly.cityquest.utils.PermissionUtils;
 
 /**

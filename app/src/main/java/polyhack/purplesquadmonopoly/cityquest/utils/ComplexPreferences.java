@@ -1,12 +1,9 @@
-package polyhack.purplesquadmonopoly.cityquest.model;
+package polyhack.purplesquadmonopoly.cityquest.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 
 /**
  * Created by motan on 06.12.2015.

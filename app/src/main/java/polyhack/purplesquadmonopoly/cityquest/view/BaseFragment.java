@@ -1,8 +1,8 @@
-package polyhack.purplesquadmonopoly.cityquest.model;
+package polyhack.purplesquadmonopoly.cityquest.view;
 
 import android.app.Fragment;
 
-import polyhack.purplesquadmonopoly.cityquest.MainActivity;
+import polyhack.purplesquadmonopoly.cityquest.activities.MainActivity;
 
 /**
  * Created by motan on 06.12.2015.

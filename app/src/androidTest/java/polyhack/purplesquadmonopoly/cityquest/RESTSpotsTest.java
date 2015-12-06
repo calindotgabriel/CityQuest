@@ -5,7 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import java.io.IOException;
 import java.util.List;
 
-import polyhack.purplesquadmonopoly.cityquest.model.Journey;
+import polyhack.purplesquadmonopoly.cityquest.activities.MainActivity;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
 import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
 import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
