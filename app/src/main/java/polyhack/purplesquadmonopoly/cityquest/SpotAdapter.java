@@ -22,6 +22,9 @@ import polyhack.purplesquadmonopoly.cityquest.model.Spot;
  */
 public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
 
+    public static final String VISITED = "Visited";
+    public static final String NOT_VISITED = "Not yet visited";
+
     private List<Spot> mSpots;
     private Context mContext;
 
@@ -41,6 +44,8 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
         final Spot spot = mSpots.get(i);
         if (spot.getName() != null) {
             viewHolder.mSpotTextView.setText(spot.getName());
+            String visitted = spot.isVisited() ? VISITED : NOT_VISITED;
+            viewHolder.mVisitedTextView.setText(visitted);
         }
         if (spot.getImgUrl() != null) {
             CircleTransform circleTransform = new CircleTransform();
@@ -51,11 +56,13 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
             viewHolder.mSpotTextOver.setText("start");
             viewHolder.mSpotImageView.setImageResource(R.drawable.round_shape_accent);
             viewHolder.mLinkImgUpView.setVisibility(View.GONE);
+            viewHolder.mVisitedTextView.setVisibility(View.GONE);
         }
         if (i == mSpots.size() - 1) {
             viewHolder.mSpotTextOver.setText("finish");
             viewHolder.mSpotImageView.setImageResource(R.drawable.round_shape_accent);
             viewHolder.mLinkImgDownView.setVisibility(View.GONE);
+            viewHolder.mVisitedTextView.setVisibility(View.GONE);
         }
     }
 
@@ -95,6 +102,9 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
 
         @Bind(R.id.link_down_view)
         View mLinkImgDownView;
+
+        @Bind(R.id.spot_visited_text_view)
+        TextView mVisitedTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);

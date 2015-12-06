@@ -13,6 +13,7 @@
 
     //Menu actions
     <string name="logout">LogOut</string>
+    <string name="active_journey">ACTIVE</string>
 
     <!--<string name="notice_dialog_content">If you choose to go on this adventure, you can\'t choose another until it's finished. Are you sure?</string>-->
     <string name="notice_dialog_title">Fair warning</string>
