@@ -18,18 +18,18 @@ public class Spot implements Parcelable {
     private String info;
     private String imgUrl;
     private String name;
-    private boolean visited;
+    private boolean helperSpot;
 
     public Spot() {
 
     }
 
-    public boolean isVisited() {
-        return visited;
+    public boolean isHelperSpot() {
+        return helperSpot;
     }
 
-    public void setVisited(boolean visited) {
-        this.visited = visited;
+    public void setHelperSpot(boolean helperSpot) {
+        this.helperSpot = helperSpot;
     }
 
     public String getId() {

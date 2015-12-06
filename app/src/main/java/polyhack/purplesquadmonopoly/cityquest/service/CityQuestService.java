@@ -5,6 +5,7 @@ import java.util.List;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
 import polyhack.purplesquadmonopoly.cityquest.model.User;
+import polyhack.purplesquadmonopoly.cityquest.model.VisitedSpot;
 import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -24,5 +25,9 @@ public interface CityQuestService {
 
     @GET("/spots/journey/{id}")
     Call<List<Spot>> getSpotsForJourney(@Path("id") String id);
+
+    @GET("/spots/{userId}/{journeyId}")
+    Call<List<VisitedSpot>> getSpotsForUserJourney(@Path("userId") String userId,
+                                                   @Path("journeyId") String journeyId);
 
 }
