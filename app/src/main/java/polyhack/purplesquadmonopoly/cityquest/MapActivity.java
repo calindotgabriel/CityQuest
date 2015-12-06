@@ -12,6 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -20,7 +21,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import polyhack.purplesquadmonopoly.cityquest.model.Spot;
+
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    public static final int ACCENT_COLOR_40 = 0x40FF4081;
 
     private String TAG = this.getClass().getCanonicalName();
 
@@ -31,11 +36,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private GeofenceStore mGeofenceStore;
 
     private List<Geofence> mGeofences;
-    private List<LatLng> mGeofenceCoordinates;
-    private List<Float> mGeofenceRadius;
-
-    private LatLng COORDS = new LatLng(46.7551639, 23.5875443);
-    private Float RADIUS = 5000f;
+    private ArrayList<Spot> mSpots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,28 +46,31 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
-
-        mGeofences = new ArrayList<>();
-        mGeofenceCoordinates = new ArrayList<>();
-        mGeofenceRadius = new ArrayList<>();
-
-        mGeofenceCoordinates.add(COORDS);
-        mGeofenceRadius.add(RADIUS);
-
-
-        mGeofences.add(new Geofence.Builder()
-                .setRequestId("MyLocationFence")
-                .setCircularRegion(COORDS.latitude, COORDS.longitude, RADIUS)
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                // Tells how much time a user can be tagged as 'in the area'
-                .setLoiteringDelay(30000)
-                .setTransitionTypes(
-                        Geofence.GEOFENCE_TRANSITION_ENTER
-                                | Geofence.GEOFENCE_TRANSITION_DWELL
-                                | Geofence.GEOFENCE_TRANSITION_EXIT)
-                .build());
+        buildGeofences();
 
         mapFragment.getMapAsync(this);
+    }
+
+    private void buildGeofences() {
+        mGeofences = new ArrayList<>();
+        mSpots = getIntent().getParcelableArrayListExtra(DetailFragment.KEY_SPOTS);
+
+
+        for (Spot spot : mSpots) {
+            mGeofences.add(new Geofence.Builder()
+                    .setRequestId(spot.getName())
+                    .setCircularRegion(spot.getLat(), spot.getLng(), (float) spot.getRadius() * 10)
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    // Tells how much time a user can be tagged as 'in the area'
+                    .setLoiteringDelay(30000)
+                    .setTransitionTypes(
+                            Geofence.GEOFENCE_TRANSITION_ENTER
+                                    | Geofence.GEOFENCE_TRANSITION_DWELL
+                                    | Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .build());
+        }
+
+
     }
 
 
@@ -97,20 +101,22 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-        for (int i = 0; i < mGeofences.size(); i++) {
-            drawGeofenceCircle(mGeofenceCoordinates.get(i), mGeofenceRadius.get(i));
+        for (Spot spot : mSpots) {
+            final LatLng latLng = spot.getLatLng();
+            drawGeofenceCircle(latLng, (float) spot.getRadius());
             mMap.addMarker(new MarkerOptions()
-                    .position(mGeofenceCoordinates.get(i))
-                    .title(mGeofences.get(i).getRequestId()));
-
+                    .position(latLng)
+//                    .icon(BitmapDescriptorFactory.defaultMarker()) TODO design new marker
+                    .title(spot.getName()));
         }
     }
 
     private Circle drawGeofenceCircle(LatLng coordinates, float radius) {
         return mMap.addCircle(new CircleOptions().center(coordinates)
-                .radius(radius)
-                .fillColor(0x40ff0000)
-                .strokeColor(Color.TRANSPARENT).strokeWidth(2));
+                .radius(radius * 10) //todo
+                .fillColor(ACCENT_COLOR_40)
+                .strokeColor(Color.TRANSPARENT)
+        );
     }
 
     @Override

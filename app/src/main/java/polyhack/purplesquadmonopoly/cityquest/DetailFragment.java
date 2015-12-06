@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -37,6 +37,7 @@ public class DetailFragment extends BaseFragment {
 
     public static final String TAG = DetailFragment.class.getSimpleName();
     public static final String KEY_JOURNEY = "serializable_journey_key";
+    public static final String KEY_SPOTS = "spots";
     private Journey mTargetJourney;
     private SpotAdapter adapter;
 
@@ -57,6 +58,8 @@ public class DetailFragment extends BaseFragment {
 
     @Bind(R.id.spot_recycler_view)
     RecyclerView mSpotRecyclerView;
+
+    private ArrayList<Spot> mSpots;
 
     public static DetailFragment newInstance(Journey journey) {
         DetailFragment fragment = new DetailFragment();
@@ -103,7 +106,8 @@ public class DetailFragment extends BaseFragment {
         spotsCall.enqueue(new Callback<List<Spot>>() {
             @Override
             public void onResponse(Response<List<Spot>> response, Retrofit retrofit) {
-                adapter.animateTo(response.body());
+                mSpots = new ArrayList<Spot>(response.body());
+                adapter.animateTo(mSpots);
             }
 
             @Override
@@ -134,6 +138,7 @@ public class DetailFragment extends BaseFragment {
     @OnClick(R.id.go_btn)
     void onGoBtnPressed() {
         Intent intent = new Intent(getActivity(), MapActivity.class);
+        intent.putParcelableArrayListExtra(KEY_SPOTS, mSpots);
         startActivity(intent);
     }
 }
