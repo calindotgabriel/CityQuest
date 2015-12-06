@@ -13,7 +13,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String TAG = this.getClass().getCanonicalName();
 
-    private Location mLocation;
 
 
     @Override
@@ -21,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLocation = new Location(this);
-        mLocation.getLastKnown();
 
         final ListFragment listFragment = new ListFragment();
         final FragmentManager fragmentManager = getFragmentManager();
@@ -35,20 +32,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         PermissionUtils.checkGPSPermission(this);
-        mLocation.connectAPI();
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-        mLocation.stopLocationUpdates();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mLocation.disconnectAPI();
     }
 
     @Override

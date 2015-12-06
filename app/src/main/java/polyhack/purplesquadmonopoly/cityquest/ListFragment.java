@@ -14,6 +14,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import polyhack.purplesquadmonopoly.cityquest.model.BaseFragment;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 import polyhack.purplesquadmonopoly.cityquest.model.view.EmptyRecyclerView;
 import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
@@ -27,7 +28,7 @@ import retrofit.Retrofit;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFragment extends Fragment{
+public class ListFragment extends BaseFragment {
 
     private String TAG = this.getClass().getCanonicalName();
 
@@ -48,6 +49,8 @@ public class ListFragment extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setActionBarTitle("Choose your adventure!");
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);

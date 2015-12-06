@@ -1,10 +1,7 @@
 package polyhack.purplesquadmonopoly.cityquest;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +13,11 @@ import com.squareup.picasso.Picasso;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import polyhack.purplesquadmonopoly.cityquest.model.BaseFragment;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DetailFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DetailFragment extends Fragment {
+public class DetailFragment extends BaseFragment {
 
     public static final String KEY_JOURNEY = "serializable_journey_key";
     private Journey mTargetJourney;
@@ -82,6 +72,7 @@ public class DetailFragment extends Fragment {
     public void setTargetedNote(Journey targetJourney) {
         this.mTargetJourney = targetJourney;
         fillFields(targetJourney);
+        setActionBarTitle(mTargetJourney.getName());
     }
 
     private void fillFields(Journey targetJourney) {
