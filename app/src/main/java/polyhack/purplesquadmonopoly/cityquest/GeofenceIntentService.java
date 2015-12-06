@@ -15,29 +15,41 @@ import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.List;
 
+import polyhack.purplesquadmonopoly.cityquest.model.Spot;
+
 /**
  * Created by motan on 05.12.2015.
  */
 public class GeofenceIntentService extends IntentService{
 
     private final String TAG = this.getClass().getCanonicalName();
+    private final AdventurePersistence mAdventurePersistence;
 
 
     public GeofenceIntentService() {
         super("GeofenceIntentService");
-        Log.v(TAG, "Constructor Intent Service.");
+        mAdventurePersistence = new AdventurePersistence(getApplicationContext());
     }
 
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
-
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         Log.v(TAG, "onHandleIntent");
         if(!geofencingEvent.hasError()) {
             int transition = geofencingEvent.getGeofenceTransition();
             String notificationTitle;
+
+            List<Geofence> geofences = geofencingEvent.getTriggeringGeofences();
+
+            //only 1 at a time ?
+            final String enteredSpotName = geofences.get(0).getRequestId();// this is a spot name
+
+            for (Spot spot : mAdventurePersistence.getActiveAdventure().spots) {
+                if (spot.getName().equals(enteredSpotName)) {
+                    Log.v(TAG, "Spot " + spot.getName() + "identified!");
+                }
+            }
 
             switch(transition) {
                 case Geofence.GEOFENCE_TRANSITION_ENTER:

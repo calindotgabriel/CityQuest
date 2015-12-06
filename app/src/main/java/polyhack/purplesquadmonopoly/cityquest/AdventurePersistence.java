@@ -32,7 +32,7 @@ public class AdventurePersistence {
         return mPreferances.containsObject(KEY);
     }
 
-    public Adventure getAdventure() {
+    public Adventure getActiveAdventure() {
         return mPreferances.getObject(KEY, Adventure.class);
     }
 

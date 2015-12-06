@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.directions.route.Route;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
@@ -19,6 +22,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 
 import java.util.ArrayList;
@@ -26,8 +30,9 @@ import java.util.List;
 
 import polyhack.purplesquadmonopoly.cityquest.model.MapBoxOnlineTileProvider;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
+import polyhack.purplesquadmonopoly.cityquest.utils.AdapterUtils;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback, RoutingListener {
 
     public static final int ACCENT_COLOR_40 = 0x40FF4081;
 
@@ -41,7 +46,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private List<LatLng> spotsPositions;
     private List<Geofence> mGeofences;
-    private ArrayList<Spot> mSpots;
+    private List<Spot> mSpots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +88,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
-//        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
+//        toggleRouting();
 
         mGeofenceStore = new GeofenceStore(this, mGeofences, new LocationListener() {
             @Override
@@ -101,7 +107,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
                 if (!cameraOnMyLocation) {
                     mInitialLocation = new LatLng(location.getLatitude(), location.getLongitude());
-//                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mInitialLocation, 12f));
                     zoomCamera();
                     cameraOnMyLocation = true;
                 }
@@ -120,6 +125,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                     .title(spot.getName()));
         }
 
+    }
+
+    private void toggleRouting() {
+        Routing routing = new Routing.Builder()
+                .travelMode(Routing.TravelMode.WALKING)
+                .withListener(this)
+                .waypoints(AdapterUtils.waypointsForSpots(mSpots))
+                .build();
+        routing.execute();
     }
 
     private void zoomCamera() {
@@ -145,5 +159,31 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onStop() {
         super.onStop();
         mGeofenceStore.disconnect();
+    }
+
+    @Override
+    public void onRoutingFailure() {
+
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<Route> routes, int i) {
+        /*for (int i1 = 0; i1 < routes.size(); i1++) {
+            PolylineOptions polyOptions = new PolylineOptions();
+            polyOptions.color(ACCENT_COLOR_40);
+            polyOptions.width(10 + i * 3);
+            polyOptions.addAll(routes.get(i).getPoints());
+            mMap.addPolyline(polyOptions);
+        }*/
+    }
+
+    @Override
+    public void onRoutingCancelled() {
+
     }
 }

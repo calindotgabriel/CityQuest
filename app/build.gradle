@@ -43,4 +43,7 @@ dependencies {
         transitive = true
     }
 
+    compile 'com.github.jd-alexander:library:1.0.7'
+
+
 }

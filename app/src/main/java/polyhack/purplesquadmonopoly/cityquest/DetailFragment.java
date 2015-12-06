@@ -147,7 +147,7 @@ public class DetailFragment extends BaseFragment {
 
         if (mAdventurePersistence.isAnotherAdventureStarted()) {
             Log.v(TAG, "other spots already persisted");
-            final Journey activeJourney = mAdventurePersistence.getAdventure().journey;
+            final Journey activeJourney = mAdventurePersistence.getActiveAdventure().journey;
             if (mTargetJourney.getId().equals(activeJourney.getId())) {
                 Log.v(TAG, "Already doing this journey, should go to map");
                 gotToMap();
