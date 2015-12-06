@@ -23,7 +23,7 @@ public class Journey implements Serializable {
         this.active = active;
     }
 
-    public String get_id() {
+    public String getId() {
         return _id;
     }
 
