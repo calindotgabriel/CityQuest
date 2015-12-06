@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -67,7 +68,7 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
     }
 
     public void animateTo(List<Spot> spots) {
-        this.mSpots = spots;
+        this.mSpots = new ArrayList<>(spots);
 
         mSpots.add(0, new Spot());
         mSpots.add(new Spot());
