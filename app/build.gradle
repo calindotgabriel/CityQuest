@@ -39,4 +39,8 @@ dependencies {
 
     compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
 
+    compile('com.github.afollestad.material-dialogs:core:0.8.5.2@aar') {
+        transitive = true
+    }
+
 }

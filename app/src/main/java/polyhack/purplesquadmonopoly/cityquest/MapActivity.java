@@ -80,13 +80,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
-
-        String mapId = "cihtx8hzk00fmbrlzk3lf3nbq";
-        String accessToken = "pk.eyJ1IjoiY2FsaW5kb3RnYWJyaWVsIiwiYSI6ImNpZW8yZnF6MDAwOGF0M2trZ3IxZzUxdXYifQ.N1xBvZc0Xzkgw-I5ssvq6A";
-
-        MapBoxOnlineTileProvider provider = new MapBoxOnlineTileProvider(mapId, accessToken);
-        mMap.addTileOverlay(new TileOverlayOptions().tileProvider(provider));
-
+//        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
         mGeofenceStore = new GeofenceStore(this, mGeofences, new LocationListener() {
             @Override
