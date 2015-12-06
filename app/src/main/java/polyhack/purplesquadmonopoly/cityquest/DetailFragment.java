@@ -35,7 +35,6 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 
-
 public class DetailFragment extends BaseFragment {
 
     public static final String TAG = DetailFragment.class.getSimpleName();
@@ -65,7 +64,7 @@ public class DetailFragment extends BaseFragment {
     RecyclerView mSpotRecyclerView;
 
     private ArrayList<Spot> mSpots;
-    private AdventurePersistence mJourneyManager;
+    private AdventurePersistence mAdventurePersistence;
 
     public static DetailFragment newInstance(Journey journey) {
         DetailFragment fragment = new DetailFragment();
@@ -92,13 +91,13 @@ public class DetailFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mJourneyManager = new AdventurePersistence(getActivity());
+        mAdventurePersistence = new AdventurePersistence(getActivity());
 
         final Bundle args = getArguments();
         if (args != null) {
             Journey journey = (Journey) args.getSerializable(KEY_JOURNEY);
             this.setTargetedNote(journey);
-            populateSpots(journey.get_id());
+            populateSpots(journey.getId());
         }
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -146,31 +145,49 @@ public class DetailFragment extends BaseFragment {
     @OnClick(R.id.go_btn)
     void onGoBtnPressed() {
 
-        if (mJourneyManager.isAnotherAdventureStarted()) {
+        if (mAdventurePersistence.isAnotherAdventureStarted()) {
             Log.v(TAG, "other spots already persisted");
+            final Journey activeJourney = mAdventurePersistence.getAdventure().journey;
+            if (mTargetJourney.getId().equals(activeJourney.getId())) {
+                Log.v(TAG, "Already doing this journey, should go to map");
+                gotToMap();
+            } else {
+                final String activeJourneyName = activeJourney.getName();
+                Log.v(TAG, "Doing " + activeJourneyName + ", different from the one clicked!");
+                buildDialog("Changed your mind?",
+                            "You're already doing " + activeJourneyName + ", sure you wanna do " + mTargetJourney.getName() + " instead?",
+                            "Yes",
+                            "No");
+            }
 
         } else {
-            new MaterialDialog.Builder(getActivity())
-                    .title(R.string.notice_dialog_title)
-                    .content("If you choose to go on this adventure, you can't choose another until it's finished. Are you sure?")
-                    .positiveText(R.string.notice_dialog_positive)
-                    .negativeText(R.string.notice_dialog_negative)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-
-                            mJourneyManager.save(new Adventure(mTargetJourney, mSpots));
-
-                            gotToMap();
-                        }
-                    })
-                    .show();
+            buildDialog("Fair warning",
+                    "If you choose to go on this adventure, you can't choose another until it's finished. Are you sure?",
+                    "Yes",
+                    "I'll see others too");
         }
+    }
+
+    private void buildDialog(String title, String content, String positive, String negative) {
+        new MaterialDialog.Builder(getActivity())
+                .title(title)
+                .content(content)
+                .positiveText(positive)
+                .negativeText(negative)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                        mAdventurePersistence.save(new Adventure(mTargetJourney, mSpots));
+                        gotToMap();
+                    }
+                })
+                .show();
     }
 
     private void gotToMap() {
         Intent intent = new Intent(getActivity(), MapActivity.class);
         intent.putParcelableArrayListExtra(KEY_SPOTS, mSpots);
+        //todo redundant, can get from persistence!
         startActivity(intent);
     }
 }

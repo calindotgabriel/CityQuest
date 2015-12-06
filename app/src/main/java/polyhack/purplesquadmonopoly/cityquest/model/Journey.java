@@ -14,7 +14,7 @@ public class Journey implements Serializable {
     private Long distance;
     private String imgURL;
 
-    public String get_id() {
+    public String getId() {
         return _id;
     }
 
