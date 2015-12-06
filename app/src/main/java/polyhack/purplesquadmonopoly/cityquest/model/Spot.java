@@ -1,12 +1,17 @@
 package polyhack.purplesquadmonopoly.cityquest.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Ovi on 06-Dec-15.
  */
-public class Spot {
+public class Spot implements Parcelable {
 
     private String _id;
-    private String journeID;
+    private String journeyID;
     private double lat;
     private double lng;
     private double radius;
@@ -14,7 +19,11 @@ public class Spot {
     private String imgUrl;
     private String name;
 
-    public String get_id() {
+    public Spot() {
+
+    }
+
+    public String getId() {
         return _id;
     }
 
@@ -22,12 +31,12 @@ public class Spot {
         this._id = _id;
     }
 
-    public String getJourneID() {
-        return journeID;
+    public String getJourneyID() {
+        return journeyID;
     }
 
-    public void setJourneID(String journeID) {
-        this.journeID = journeID;
+    public void setJourneyID(String journeyID) {
+        this.journeyID = journeyID;
     }
 
     public double getLat() {
@@ -77,4 +86,50 @@ public class Spot {
     public void setName(String name) {
         this.name = name;
     }
+
+    public LatLng getLatLng() {
+        return new LatLng(lat, lng);
+    }
+
+
+    public Spot(Parcel in) {
+        _id = in.readString();
+        journeyID = in.readString();
+        lat = in.readDouble();
+        lng = in.readDouble();
+        radius = in.readDouble();
+        info = in.readString();
+        imgUrl = in.readString();
+        name = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
+        dest.writeString(journeyID);
+        dest.writeDouble(lat);
+        dest.writeDouble(lng);
+        dest.writeDouble(radius);
+        dest.writeString(info);
+        dest.writeString(imgUrl);
+        dest.writeString(name);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Spot> CREATOR = new Parcelable.Creator<Spot>() {
+        @Override
+        public Spot createFromParcel(Parcel in) {
+            return new Spot(in);
+        }
+
+        @Override
+        public Spot[] newArray(int size) {
+            return new Spot[size];
+        }
+    };
 }

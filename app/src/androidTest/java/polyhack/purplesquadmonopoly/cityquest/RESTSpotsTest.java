@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
+import polyhack.purplesquadmonopoly.cityquest.model.Spot;
 import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
 import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
 import retrofit.Call;
@@ -21,15 +22,18 @@ public class RESTSpotsTest extends ActivityInstrumentationTestCase2<MainActivity
 
     public void testGetAll() throws IOException {
 
-        final List<Journey> journies = getJourneys();
+        final List<Spot> spots = getSpotsForJourney();
 
-        assertNotNull(journies);
+        assertNotNull(spots);
     }
 
-    private List<Journey> getJourneys() throws IOException {
+    private List<Spot> getSpotsForJourney() throws IOException {
         final CityQuestService service = ServiceGenerator.createService(CityQuestService.class);
-        final Call<List<Journey>> notesCall = service.getAllJournies();
-        return notesCall.execute().body();
+        final Call<List<Spot>> spotsCall = service.getSpotsForJourney("41224d776a326fb40f000004");
+
+        final List<Spot> spots = spotsCall.execute().body();
+
+        return spots;
     }
 
 

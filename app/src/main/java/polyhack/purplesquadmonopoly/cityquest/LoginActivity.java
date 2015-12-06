@@ -48,12 +48,14 @@ public class LoginActivity extends AppCompatActivity {
     /*@Bind(R.id.logo_image_view)
     ImageView logoImageView;*/
 
+    private String TAG = this.getClass().getCanonicalName();
+
     @Bind(R.id.facebok_login_button)
     Button facebookLoginBtn;
 
     private CallbackManager callbackManager;
-    private LoginManager loginManager;
 
+    private LoginManager loginManager;
     private CityQuestService cityQuestService;
 
     @Override
@@ -96,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(FacebookException e) {
+                        Log.e(TAG, "Fb Error: " + e.getMessage());
                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
