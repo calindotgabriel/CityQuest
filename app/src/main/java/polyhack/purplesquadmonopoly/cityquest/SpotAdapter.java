@@ -16,6 +16,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
+import polyhack.purplesquadmonopoly.cityquest.model.VisitedSpot;
 
 /**
  * Created by Ovi on 06-Dec-15.
@@ -25,7 +26,7 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
     public static final String VISITED = "Visited";
     public static final String NOT_VISITED = "Not yet visited";
 
-    private List<Spot> mSpots;
+    private List<VisitedSpot> mSpots;
     private Context mContext;
 
     public SpotAdapter(Context context) {
@@ -41,28 +42,28 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final Spot spot = mSpots.get(i);
-        if (spot.getName() != null) {
+        final VisitedSpot visitedSpot = mSpots.get(i);
+        final Spot spot = visitedSpot.getSpot();
+        if (spot == null) {
+            if (i == 0) {
+                viewHolder.mSpotTextOver.setText("start");
+                viewHolder.mLinkImgUpView.setVisibility(View.GONE);
+            }
+            if (i == mSpots.size() - 1) {
+                viewHolder.mSpotTextOver.setText("finish");
+                viewHolder.mLinkImgDownView.setVisibility(View.GONE);
+            }
+            viewHolder.mSpotImageView.setImageResource(R.drawable.round_shape_accent);
+            viewHolder.mVisitedTextView.setVisibility(View.GONE);
+        } else {
             viewHolder.mSpotTextView.setText(spot.getName());
-            String visitted = spot.isVisited() ? VISITED : NOT_VISITED;
-            viewHolder.mVisitedTextView.setText(visitted);
-        }
-        if (spot.getImgUrl() != null) {
+            String visited = visitedSpot.isVisited() ? VISITED : NOT_VISITED;
+            viewHolder.mVisitedTextView.setText(visited);
+            int visibility = visitedSpot.isVisited() ? View.GONE : View.VISIBLE;
+            viewHolder.mSpotOverlayView.setVisibility(visibility );
             CircleTransform circleTransform = new CircleTransform();
             Picasso.with(mContext).load(spot.getImgUrl()).transform(circleTransform)
                     .centerCrop().fit().into(viewHolder.mSpotImageView);
-        }
-        if (i == 0) {
-            viewHolder.mSpotTextOver.setText("start");
-            viewHolder.mSpotImageView.setImageResource(R.drawable.round_shape_accent);
-            viewHolder.mLinkImgUpView.setVisibility(View.GONE);
-            viewHolder.mVisitedTextView.setVisibility(View.GONE);
-        }
-        if (i == mSpots.size() - 1) {
-            viewHolder.mSpotTextOver.setText("finish");
-            viewHolder.mSpotImageView.setImageResource(R.drawable.round_shape_accent);
-            viewHolder.mLinkImgDownView.setVisibility(View.GONE);
-            viewHolder.mVisitedTextView.setVisibility(View.GONE);
         }
     }
 
@@ -74,11 +75,11 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
         return mSpots.size();
     }
 
-    public void animateTo(List<Spot> spots) {
+    public void animateTo(List<VisitedSpot> spots) {
         this.mSpots = new ArrayList<>(spots);
 
-        mSpots.add(0, new Spot());
-        mSpots.add(new Spot());
+        mSpots.add(0, new VisitedSpot());
+        mSpots.add(new VisitedSpot());
 
         notifyDataSetChanged();
     }

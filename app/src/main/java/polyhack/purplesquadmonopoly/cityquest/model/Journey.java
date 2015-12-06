@@ -13,6 +13,15 @@ public class Journey implements Serializable {
     private Long duration; // in km.
     private Long distance;
     private String imgURL;
+    private boolean active;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public String get_id() {
         return _id;

@@ -27,6 +27,7 @@ import polyhack.purplesquadmonopoly.cityquest.model.Adventure;
 import polyhack.purplesquadmonopoly.cityquest.model.BaseFragment;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
+import polyhack.purplesquadmonopoly.cityquest.model.VisitedSpot;
 import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
 import polyhack.purplesquadmonopoly.cityquest.service.ServiceGenerator;
 import retrofit.Call;
@@ -64,7 +65,8 @@ public class DetailFragment extends BaseFragment {
     @Bind(R.id.spot_recycler_view)
     RecyclerView mSpotRecyclerView;
 
-    private ArrayList<Spot> mSpots;
+    private ArrayList<Spot> mSpots = new ArrayList<>();
+    private List<VisitedSpot> mSpotsVisited;
     private AdventurePersistence mJourneyManager;
 
     public static DetailFragment newInstance(Journey journey) {
@@ -98,7 +100,7 @@ public class DetailFragment extends BaseFragment {
         if (args != null) {
             Journey journey = (Journey) args.getSerializable(KEY_JOURNEY);
             this.setTargetedNote(journey);
-            populateSpots(journey.get_id());
+            populateSpots(journey.get_id(), UserManagement.getUser(getActivity()).get_id());
         }
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -108,14 +110,15 @@ public class DetailFragment extends BaseFragment {
 
     }
 
-    private void populateSpots(String journeyId) {
+    private void populateSpots(String journeyId, String userId) {
         final CityQuestService service = ServiceGenerator.createService(CityQuestService.class);
-        final Call<List<Spot>> spotsCall = service.getSpotsForJourney(journeyId);
-        spotsCall.enqueue(new Callback<List<Spot>>() {
+        final Call<List<VisitedSpot>> spotsCall = service.getSpotsForUserJourney(userId, journeyId);
+        spotsCall.enqueue(new Callback<List<VisitedSpot>>() {
             @Override
-            public void onResponse(Response<List<Spot>> response, Retrofit retrofit) {
-                mSpots = new ArrayList<Spot>(response.body());
-                adapter.animateTo(mSpots);
+            public void onResponse(Response<List<VisitedSpot>> response, Retrofit retrofit) {
+                mSpotsVisited = response.body();
+                convertToSpot();
+                adapter.animateTo(mSpotsVisited);
             }
 
             @Override
@@ -126,6 +129,13 @@ public class DetailFragment extends BaseFragment {
                 Log.e(TAG, errorMessage);
             }
         });
+    }
+
+    //TODO: refactor spots
+    private void convertToSpot() {
+        for (VisitedSpot visitedSpot : mSpotsVisited) {
+            mSpots.add(visitedSpot.getSpot());
+        }
     }
 
     public void setTargetedNote(Journey targetJourney) {

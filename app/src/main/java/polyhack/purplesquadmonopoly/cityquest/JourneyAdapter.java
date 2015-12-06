@@ -44,6 +44,11 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Journey journey = mJournies.get(position);
+        if (journey.isActive()) {
+            holder.activeTextView.setVisibility(View.VISIBLE);
+        } else {
+            holder.activeTextView.setVisibility(View.GONE);
+        }
         holder.mNameTv.setText(journey.getName());
         holder.mDescTv.setText(journey.getDesc()); //TODO
         Picasso.with(mContext).load(journey.getImgURL()).into(holder.mImgVw);
@@ -72,6 +77,9 @@ public class JourneyAdapter extends RecyclerView.Adapter<JourneyAdapter.ViewHold
 
         @Bind(R.id.rvi_img)
         ImageView mImgVw;
+
+        @Bind(R.id.active_journey_text_view)
+        TextView activeTextView;
 
         public ViewHolder(View view) {
             super(view);
