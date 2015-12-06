@@ -2,17 +2,19 @@ package polyhack.purplesquadmonopoly.cityquest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import polyhack.purplesquadmonopoly.cityquest.model.Adventure;
 import polyhack.purplesquadmonopoly.cityquest.model.BaseFragment;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
@@ -36,8 +39,10 @@ import retrofit.Retrofit;
 public class DetailFragment extends BaseFragment {
 
     public static final String TAG = DetailFragment.class.getSimpleName();
+
     public static final String KEY_JOURNEY = "serializable_journey_key";
     public static final String KEY_SPOTS = "spots";
+
     private Journey mTargetJourney;
     private SpotAdapter adapter;
 
@@ -60,6 +65,7 @@ public class DetailFragment extends BaseFragment {
     RecyclerView mSpotRecyclerView;
 
     private ArrayList<Spot> mSpots;
+    private AdventurePersistence mJourneyManager;
 
     public static DetailFragment newInstance(Journey journey) {
         DetailFragment fragment = new DetailFragment();
@@ -85,6 +91,8 @@ public class DetailFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        mJourneyManager = new AdventurePersistence(getActivity());
 
         final Bundle args = getArguments();
         if (args != null) {
@@ -137,6 +145,30 @@ public class DetailFragment extends BaseFragment {
 
     @OnClick(R.id.go_btn)
     void onGoBtnPressed() {
+
+        if (mJourneyManager.isAnotherAdventureStarted()) {
+            Log.v(TAG, "other spots already persisted");
+
+        } else {
+            new MaterialDialog.Builder(getActivity())
+                    .title(R.string.notice_dialog_title)
+                    .content("If you choose to go on this adventure, you can't choose another until it's finished. Are you sure?")
+                    .positiveText(R.string.notice_dialog_positive)
+                    .negativeText(R.string.notice_dialog_negative)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+
+                            mJourneyManager.save(new Adventure(mTargetJourney, mSpots));
+
+                            gotToMap();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    private void gotToMap() {
         Intent intent = new Intent(getActivity(), MapActivity.class);
         intent.putParcelableArrayListExtra(KEY_SPOTS, mSpots);
         startActivity(intent);

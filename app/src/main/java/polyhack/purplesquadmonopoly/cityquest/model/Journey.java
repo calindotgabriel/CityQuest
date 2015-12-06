@@ -1,11 +1,12 @@
 package polyhack.purplesquadmonopoly.cityquest.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by motan on 05.12.2015.
  */
-public class Journey implements Serializable{
+public class Journey implements Serializable {
     private String _id;
     private String name;
     private String desc;

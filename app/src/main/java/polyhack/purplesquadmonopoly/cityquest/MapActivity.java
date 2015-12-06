@@ -19,10 +19,12 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.TileOverlayOptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import polyhack.purplesquadmonopoly.cityquest.model.MapBoxOnlineTileProvider;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -81,6 +83,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
+//        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
         mGeofenceStore = new GeofenceStore(this, mGeofences, new LocationListener() {
             @Override

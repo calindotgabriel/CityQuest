@@ -31,6 +31,8 @@ public class GeofenceIntentService extends IntentService{
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
+
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         Log.v(TAG, "onHandleIntent");
         if(!geofencingEvent.hasError()) {
@@ -44,7 +46,6 @@ public class GeofenceIntentService extends IntentService{
                     break;
                 case Geofence.GEOFENCE_TRANSITION_DWELL:
                     notificationTitle = "Geofence Dwell";
-//                    mBtManger.turnBluetoothOnIfNeeded();
                     Log.v(TAG, "Dwelling in Geofence");
                     break;
                 case Geofence.GEOFENCE_TRANSITION_EXIT:
@@ -83,8 +84,8 @@ public class GeofenceIntentService extends IntentService{
 
     private String getTriggeringGeofences(Intent intent) {
         GeofencingEvent geofenceEvent = GeofencingEvent.fromIntent(intent);
-        List<Geofence> geofences = geofenceEvent
-                .getTriggeringGeofences();
+        List<Geofence> geofences = geofenceEvent.getTriggeringGeofences();
+
 
         String[] geofenceIds = new String[geofences.size()];
 
