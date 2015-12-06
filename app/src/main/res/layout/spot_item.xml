@@ -10,10 +10,19 @@
         android:layout_height="match_parent">
 
         <View
+            android:id="@+id/link_up_view"
             android:layout_width="5dp"
-            android:layout_height="match_parent"
+            android:layout_height="48dp"
             android:background="@color/primary"
-            android:layout_centerInParent="true"/>
+            android:layout_centerHorizontal="true"/>
+
+        <View
+            android:id="@+id/link_down_view"
+            android:layout_width="5dp"
+            android:layout_height="48dp"
+            android:background="@color/primary"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"/>
 
         <ImageView
             android:id="@+id/spot_image_view"
@@ -28,7 +37,15 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_centerInParent="true"
-            tools:src="@color/overlay_image_spot"/>
+            android:src="@drawable/spot_overlay_not_visited"/>
+
+        <TextView
+            android:id="@+id/text_spot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/icons"
+            android:textAllCaps="true"/>
 
     </RelativeLayout>
 

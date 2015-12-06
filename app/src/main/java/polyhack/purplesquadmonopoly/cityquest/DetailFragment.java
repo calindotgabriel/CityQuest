@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,7 +32,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 
- */
+
 public class DetailFragment extends BaseFragment {
 
     public static final String TAG = DetailFragment.class.getSimpleName();
