@@ -38,10 +38,24 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final Spot spot = mSpots.get(i);
-        viewHolder.mSpotTextView.setText(spot.getName());
-        CircleTransform circleTransform = new CircleTransform();
-        Picasso.with(mContext).load(spot.getImgUrl()).transform(circleTransform)
-                .centerCrop().fit().into(viewHolder.mSpotImageView);
+        if (spot.getName() != null) {
+            viewHolder.mSpotTextView.setText(spot.getName());
+        }
+        if (spot.getImgUrl() != null) {
+            CircleTransform circleTransform = new CircleTransform();
+            Picasso.with(mContext).load(spot.getImgUrl()).transform(circleTransform)
+                    .centerCrop().fit().into(viewHolder.mSpotImageView);
+        }
+        if (i == 0) {
+            viewHolder.mSpotTextOver.setText("start");
+            viewHolder.mSpotImageView.setImageResource(R.drawable.round_shape_accent);
+            viewHolder.mLinkImgUpView.setVisibility(View.GONE);
+        }
+        if (i == mSpots.size() - 1) {
+            viewHolder.mSpotTextOver.setText("finish");
+            viewHolder.mSpotImageView.setImageResource(R.drawable.round_shape_accent);
+            viewHolder.mLinkImgDownView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -54,6 +68,10 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
 
     public void animateTo(List<Spot> spots) {
         this.mSpots = spots;
+
+        mSpots.add(0, new Spot());
+        mSpots.add(new Spot());
+
         notifyDataSetChanged();
     }
 
@@ -66,7 +84,16 @@ public class SpotAdapter  extends RecyclerView.Adapter<SpotAdapter.ViewHolder>{
         TextView mSpotTextView;
 
         @Bind(R.id.spot_overlay_view)
-        ImageView SpotOverlayView;
+        ImageView mSpotOverlayView;
+
+        @Bind(R.id.text_spot)
+        TextView mSpotTextOver;
+
+        @Bind(R.id.link_up_view)
+        View mLinkImgUpView;
+
+        @Bind(R.id.link_down_view)
+        View mLinkImgDownView;
 
         public ViewHolder(View itemView) {
             super(itemView);

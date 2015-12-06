@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/journey_iv"
-            android:padding="16dp"
+            android:padding="8dp"
             android:textColor="@color/primary_text"
             android:textSize="36sp"
             tools:text="Cetatuie" />
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/name_tv"
-            android:padding="16dp"
+            android:padding="8dp"
             android:textSize="16sp"
             android:textColor="@color/secondary_text"
             tools:text="Plimba-te pana esti viu\nSau pana esti mort\nBuzunar la piept" />
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/description_tv"
-            android:padding="16dp"
+            android:padding="8dp"
             android:textColor="@color/secondary_text"
             tools:text="34 km" />
 
@@ -57,7 +57,7 @@
             android:layout_alignBottom="@id/distance_tv"
             android:layout_toRightOf="@id/distance_tv"
             android:layout_toEndOf="@+id/distance_tv"
-            android:padding="16dp"
+            android:padding="8dp"
             android:textColor="@color/secondary_text"
             tools:text="34 min" />
 
@@ -65,7 +65,7 @@
             android:id="@+id/spot_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/duration_tv"/>
+            android:layout_below="@+id/duration_tv"/>
 
     </RelativeLayout>
 
