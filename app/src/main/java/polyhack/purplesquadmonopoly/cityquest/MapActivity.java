@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private LatLng mInitialLocation;
     private GeofenceStore mGeofenceStore;
 
+    private List<LatLng> spotsPositions;
     private List<Geofence> mGeofences;
     private ArrayList<Spot> mSpots;
 
@@ -95,20 +98,36 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
                 if (!cameraOnMyLocation) {
                     mInitialLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mInitialLocation, 12f));
+//                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mInitialLocation, 12f));
+                    zoomCamera();
                     cameraOnMyLocation = true;
                 }
             }
         });
 
+        spotsPositions = new ArrayList<>();
+
         for (Spot spot : mSpots) {
             final LatLng latLng = spot.getLatLng();
+            spotsPositions.add(latLng);
             drawGeofenceCircle(latLng, (float) spot.getRadius());
             mMap.addMarker(new MarkerOptions()
                     .position(latLng)
 //                    .icon(BitmapDescriptorFactory.defaultMarker()) TODO design new marker
                     .title(spot.getName()));
         }
+
+    }
+
+    private void zoomCamera() {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (LatLng latLng : spotsPositions) {
+            builder.include(latLng);
+        }
+        builder.include(mInitialLocation);
+        LatLngBounds bounds = builder.build();
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
     }
 
     private Circle drawGeofenceCircle(LatLng coordinates, float radius) {

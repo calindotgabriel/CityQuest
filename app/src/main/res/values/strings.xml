@@ -13,5 +13,6 @@
 
     //Menu actions
     <string name="logout">LogOut</string>
+    <string name="active_journey">ACTIVE</string>
 
 </resources>
