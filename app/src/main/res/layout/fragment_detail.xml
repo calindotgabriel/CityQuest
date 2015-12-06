@@ -9,7 +9,10 @@
     <RelativeLayout
         android:id="@+id/journey_rl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+        android:background="@color/primary_light"
+
+        >
 
         <ImageView
             android:id="@+id/journey_iv"
@@ -34,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/name_tv"
             android:padding="16dp"
+            android:textSize="16sp"
             android:textColor="@color/secondary_text"
             tools:text="Plimba-te pana esti viu\nSau pana esti mort\nBuzunar la piept" />
 

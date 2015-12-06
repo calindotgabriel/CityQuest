@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/logo" />
+            android:src="@drawable/first_screen" />
 
         <ImageView
             android:id="@+id/logo_image_view"
@@ -28,23 +28,13 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="48dp"
-            android:background="#D7CCC8"
-            android:padding="8dp"
+            android:background="?colorPrimary"
+            android:padding="16dp"
             android:text="@string/facebook_login"
-            android:textColor="?colorAccent" />
+            android:textColor="@color/primary_light" />
 
     </RelativeLayout>
 
-    <com.github.glomadrian.loadingballs.BallView
-        android:id="@+id/loading_balls"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_margin="30dp"
-        lib:balls="3"
-        lib:enable_size_animation="false"
-        lib:movement_cycle_time="1000"
-        android:visibility="gone"
-        />
+
 
 </FrameLayout>

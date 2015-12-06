@@ -1,10 +1,7 @@
 package polyhack.purplesquadmonopoly.cityquest;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +20,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import polyhack.purplesquadmonopoly.cityquest.model.BaseFragment;
 import polyhack.purplesquadmonopoly.cityquest.model.Journey;
 import polyhack.purplesquadmonopoly.cityquest.model.Spot;
 import polyhack.purplesquadmonopoly.cityquest.service.CityQuestService;
@@ -33,7 +31,8 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 
-public class DetailFragment extends Fragment {
+ */
+public class DetailFragment extends BaseFragment {
 
     public static final String TAG = DetailFragment.class.getSimpleName();
     public static final String KEY_JOURNEY = "serializable_journey_key";
@@ -119,6 +118,7 @@ public class DetailFragment extends Fragment {
     public void setTargetedNote(Journey targetJourney) {
         this.mTargetJourney = targetJourney;
         fillFields(targetJourney);
+        setActionBarTitle(mTargetJourney.getName());
     }
 
     private void fillFields(Journey targetJourney) {
